@@ -129,17 +129,17 @@
           <h4 class="text-center mb-4">Admin Panel</h4>
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link " href="admin_dash.jsp" >
+              <a class="nav-link " href="admin_dash.jsp">
                 <i class="bi bi-speedometer2 me-2"></i>Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="user_management.jsp" >
+              <a class="nav-link active" href="user_management.jsp">
                 <i class="bi bi-people me-2"></i>User Management
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="product_management.jsp" >
+              <a class="nav-link" href="product_management.jsp">
                 <i class="bi bi-box-seam me-2"></i>Product Management
               </a>
             </li>
@@ -149,12 +149,12 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="feedback_management.jsp" >
+              <a class="nav-link" href="feedback_management.jsp">
                 <i class="bi bi-chat-dots me-2"></i>Feedback Management
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " href="reprot_management.jsp" >
+              <a class="nav-link" href="report_management.jsp">
                 <i class="bi bi-file-earmark-text me-2"></i>Report Management
               </a>
             </li>
@@ -179,49 +179,52 @@
                       <button type="submit" class="btn-primary">View Users</button>
                   </form>
 
-                  <table>
-                      <thead>
-                          <tr>
-                              <th>ID</th>
-                              <th>Name</th>
-                              <th>Email</th>
-                              <th>Role</th>
-                              <th>Actions</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <% 
-                              List<UserPojo> userList = (List<UserPojo>) request.getAttribute("userList");
-                              if (userList != null) {
-                                  for (UserPojo user : userList) {
-                                      boolean isActive = !user.getRole().startsWith("Inactive_");
-                                      String buttonClass = isActive ? "inactive" : "active";
-                                      String buttonLabel = isActive ? "Deactivate" : "Activate";
-                          %>
+                  <!-- Scrollable Table Panel -->
+                  <div style="max-height: 400px; overflow-y: auto; margin-top: 20px; border: 1px solid #ddd; border-radius: 8px; padding: 10px; background-color: white;">
+                      <table>
+                          <thead>
                               <tr>
-                                  <td><%= user.getUserID() %></td>
-                                  <td><%= user.getName() %></td>
-                                  <td><%= user.getMailID() %></td>
-                                  <td><%= user.getRole() %></td>
-                                  <td>
-                                      <form method="POST" action="UserManagement" style="display: inline;">
-                                          <input type="hidden" name="mailID" value="<%= user.getMailID() %>">
-                                          <input type="hidden" name="userID" value="<%= user.getUserID() %>">
-                                          <input type="hidden" name="name" value="<%= user.getName() %>">
-                                          <input type="hidden" name="role" value="<%= user.getRole() %>">
-                                          <button type="button" class="toggle-btn <%= buttonClass %>" onclick="toggleButton(this, '<%= user.getMailID() %>', '<%= isActive ? "Active" : "Inactive" %>')">
-                                              <%= buttonLabel %>
-                                          </button>
-                                          <input type="hidden" name="action" value="<%= isActive ? "deactivate" : "activate" %>">
-                                      </form>
-                                  </td>
+                                  <th>ID</th>
+                                  <th>Name</th>
+                                  <th>Email</th>
+                                  <th>Role</th>
+                                  <th>Actions</th>
                               </tr>
-                          <% 
+                          </thead>
+                          <tbody>
+                              <% 
+                                  List<UserPojo> userList = (List<UserPojo>) request.getAttribute("userList");
+                                  if (userList != null) {
+                                      for (UserPojo user : userList) {
+                                          boolean isActive = !user.getRole().startsWith("Inactive_");
+                                          String buttonClass = isActive ? "inactive" : "active";
+                                          String buttonLabel = isActive ? "Deactivate" : "Activate";
+                              %>
+                                  <tr>
+                                      <td><%= user.getUserID() %></td>
+                                      <td><%= user.getName() %></td>
+                                      <td><%= user.getMailID() %></td>
+                                      <td><%= user.getRole() %></td>
+                                      <td>
+                                          <form method="POST" action="UserManagement" style="display: inline;">
+                                              <input type="hidden" name="mailID" value="<%= user.getMailID() %>">
+                                              <input type="hidden" name="userID" value="<%= user.getUserID() %>">
+                                              <input type="hidden" name="name" value="<%= user.getName() %>">
+                                              <input type="hidden" name="role" value="<%= user.getRole() %>">
+                                              <button type="button" class="toggle-btn <%= buttonClass %>" onclick="toggleButton(this, '<%= user.getMailID() %>', '<%= isActive ? "Active" : "Inactive" %>')">
+                                                  <%= buttonLabel %>
+                                              </button>
+                                              <input type="hidden" name="action" value="<%= isActive ? "deactivate" : "activate" %>">
+                                          </form>
+                                      </td>
+                                  </tr>
+                              <% 
+                                      }
                                   }
-                              }
-                          %>
-                      </tbody>
-                  </table>
+                              %>
+                          </tbody>
+                      </table>
+                  </div>
               </div>
           </div>
         </div>
